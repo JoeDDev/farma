@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anticuerpos Monoclonales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            color: blue;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .risk-button {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <h1>Anticuerpos Monoclonales</h1>
+    <button class="risk-button" style="background-color: blue;" onclick="navigateTo('obinutuzumab')">**OBINUTUZUMAB</button>
+    <button class="risk-button" style="background-color: green;" onclick="navigateTo('rituximab')">**RITUXIMAB</button>
+</div>
+
+<script>
+    const riskDetails = {
+        obinutuzumab: {
+            title: "Clasificación de Riesgos - Obinutuzumab",
+            risks: [
+                { title: "Reacciones relacionadas con la infusión", description: "Descripción de las reacciones relacionadas con la infusión." },
+                { title: "Infecciones", description: "Descripción de infecciones." },
+                { title: "Empeoramiento de condiciones cardíacas preexistentes", description: "Descripción sobre condiciones cardíacas." },
+                { title: "Trombocitopenia", description: "Descripción sobre trombocitopenia." }
+            ]
+        },
+        rituximab: {
+            title: "Clasificación de Riesgos - Rituximab",
+            risks: [
+                { title: "Reacciones relacionadas con la infusión", description: "Descripción de las reacciones relacionadas con la infusión." },
+                { title: "Infecciones", description: "Descripción de infecciones." },
+                { title: "Leucoencefalopatía multifocal progresiva", description: "Descripción sobre leucoencefalopatía." },
+                { title: "Reactivación de Hepatitis B", description: "Descripción sobre Hepatitis B." }
+            ]
+        }
+    };
+
+    function navigateTo(medicine) {
+        const appDiv = document.getElementById('app');
+        appDiv.innerHTML = '';
+
+        if (medicine === 'home') {
+            appDiv.innerHTML = `
+                <h1>Anticuerpos Monoclonales</h1>
+                <button class="risk-button" style="background-color: blue;" onclick="navigateTo('obinutuzumab')">**OBINUTUZUMAB</button>
+                <button class="risk-button" style="background-color: green;" onclick="navigateTo('rituximab')">**RITUXIMAB</button>
+            `;
+            return;
+        }
+
+        const details = riskDetails[medicine];
+        appDiv.innerHTML = `<h2>${details.title}</h2>`;
+        details.risks.forEach((risk, index) => {
+            appDiv.innerHTML += `
+                <button class="risk-button" style="background-color: #800000;" onclick="showRiskDetail('${medicine}', ${index})">${risk.title}</button>
+            `;
+        });
+        appDiv.innerHTML += `<button class="back-button" onclick="navigateTo('home')">Volver</button>`;
+    }
+
+    function showRiskDetail(medicine, riskIndex) {
+        const appDiv = document.getElementById('app');
+        const risk = riskDetails[medicine].risks[riskIndex];
+        appDiv.innerHTML = `
+            <h2>${risk.title}</h2>
+            <p>${risk.description}</p>
+            <button class="back-button" onclick="navigateTo('${medicine}')">Volver</button>
+        `;
+    }
+</script>
+
+</body>
+</html>
